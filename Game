@@ -1,221 +1,175 @@
-import pygame
-
-pygame.init()
-
-win= pygame.display.set_mode((550, 550))
-
-pygame.display.set_caption('Tic Tac Toe')
-
-board = [[0, 0, 0],[0, 0, 0],[0, 0, 0]]
-
-#squares to make up the lines of the tic tac toe playing area
-square_one= pygame.draw.rect(win, (255,255,255),(25,25,150,150))
-square_two= pygame.draw.rect(win, (255,255,255),(200,25,150,150))
-square_three= pygame.draw.rect(win, (255,255,255),(375,25,150,150))
-
-square_four= pygame.draw.rect(win, (255,255,255),(25,200,150,150))
-square_five= pygame.draw.rect(win, (255,255,255), (200, 200, 150, 150))
-square_six= pygame.draw.rect(win, (255,255,255), (375,200,150,150))
-
-square_seven= pygame.draw.rect(win, (255,255,255),(25,375, 150, 150))
-square_eight= pygame.draw.rect(win,(255,255,255),(200, 375,150,150))
-square_nine= pygame.draw.rect(win,(255,255,255),(375,375,150,150))
-
-draw_shape='rect'
-
-first_open= True
-second_open= True
-third_open= True
-fourth_open= True
-fifth_open= True
-sixth_open= True
-seventh_open= True
-eighth_open= True
-ninth_open= True
-
-def win_check(num):
-for row in board:
-for tile in row:
-if tile== num:
-continue
-else:
-break
-else:
-return True
-
-for column in range(3):
-for row in board:
-if row[column]== num:
-continue
-else:
-break
-else:
-return True
-
-for tile in range(3):
-if board[tile][tile]==num:
-continue
-else:
-break
-else:
-return True
-
-for tile in range(3):
-if board[tile][2-tile] == num:
-continue
-else:
-break
-else:
-return True
-
-game_run=True
-won= False
-while game_run:
-
-pygame.time.delay(100)
-
-for event in pygame.event.get():
-
-if event.type == pygame.QUIT:
-game_run= False
-
-if event.type == pygame.KEYDOWN:
-if event.key == pygame.K_SPACE:
-first_open= True
-second_open= True
-third_open= True
-fourth_open= True
-fifth_open= True
-sixth_open= True
-seventh_open= True
-eighth_open= True
-ninth_open= True
-run=True
-won=False
-board=[[0, 0, 0][0, 0, 0][0, 0, 0]]
-square_one= pygame.draw.rect(win, (255,255,255),(25,25,150,150))
-square_two= pygame.draw.rect(win, (255,255,255),(200,25,150,150))
-square_three= pygame.draw.rect(win, (255,255,255),(375,25,150,150))
-
-square_four= pygame.draw.rect(win, (255,255,255),(25,200,150,150))
-square_five= pygame.draw.rect(win, (255,255,255), (200, 200, 150, 150))
-square_six= pygame.draw.rect(win, (255,255,255), (375,200,150,150))
-
-square_seven= pygame.draw.rect(win, (255,255,255),(25,375, 150, 150))
-square_eight= pygame.draw.rect(win,(255,255,255),(200, 375,150,150))
-square_nine= pygame.draw.rect(win,(255,255,255),(375,375,150,150))
+import random
+import sys
+import os
 
 
-if event.type == pygame.MOUSEBUTTONUP:
-pos= pygame.mouse.get_pos()
+class Board():
+    def __init__(self):
+        self.boxes = [" "]*10 #make empty spaces for the board
 
-if won != True:
-if square_one.collidepoint(pos) and first_open:
-if draw_shape=='rect':
-pygame.draw.rect(win,(255,0,0),(50,50,100,100))
-draw_shape='circle'
-board[0][0]=1
-else:
-pygame.draw.circle(win, (0,255,0),(100,100),50)
-draw_shape='rect'
-board[0][0]=2
+    def drawBoard(self):
+        print (" %s | %s | %s"%(self.boxes[1],self.boxes[2],self.boxes[3])) # %s so it can be replaced with X or O
+        print("-----------")
+        print (" %s | %s | %s"%(self.boxes[4],self.boxes[5],self.boxes[6]))
+        print("-----------")
+        print (" %s | %s | %s"%(self.boxes[7],self.boxes[8],self.boxes[9]))
 
-first_open=False
+    def update_board(self,position,player):
+        self.boxes[position] = player
 
-if square_two.collidepoint(pos) and second_open:
-if draw_shape=='rect':
-pygame.draw.rect(win, (255,0,0),(225,50,100,100))
-draw_shape='circle'
-board[0][1]=1
-else:
-pygame.draw.circle(win, (0,255,0),(275,100),50)
-draw_shape='rect'
-board[0][1]=2
-second_open=False
+    def full_board(self): #checking if the board is full
+        b = True
+        for i in range(1,9):
+            if self.boxes[i] == " ":
+                b = False
+                break
+        return b
 
-if square_three.collidepoint(pos) and third_open:
-if draw_shape=='rect':
-pygame.draw.rect(win, (255,0,0),(400,50,100,100))
-draw_shape='circle'
-board[0][2]=1
-else:
-pygame.draw.circle(win, (0,255,0),(450,100),50)
-draw_shape='rect'
-board[0][2]=2
-third_open=False
+    def reset(self):
+        self.boxes = [" "]*10 #reset board to clean
 
-if square_four.collidepoint(pos) and fourth_open:
-if draw_shape=='rect':
-pygame.draw.rect(win, (255,0,0),(50,225,100,100))
-draw_shape='circle'
-board[1][0]=1
-else:
-pygame.draw.circle(win, (0,255,0),(100,275),50)
-draw_shape='rect'
-board[1][0]=2
-fourth_open=False
+class Game():
+    def isWinner(self, le):
+        pass
 
-if square_five.collidepoint(pos) and fifth_open:
-if draw_shape=='rect':
-pygame.draw.rect(win, (255,0,0),(225,225,100,100))
-draw_shape='circle'
-board[1][1]=1
-else:
-pygame.draw.circle(win, (0,255,0),(275,275),50)
-draw_shape='rect'
-board[1][1]=2
-fifth_open=False
+    def user_move(self):
+        pass
 
-if square_six.collidepoint(pos) and sixth_open:
-if draw_shape=='rect':
-pygame.draw.rect(win, (255,0,0),(400,225,100,100))
-draw_shape='circle'
-board[1][2]=1
-else:
-pygame.draw.circle(win, (0,255,0),(450,275),50)
-draw_shape='rect'
-board[1][2]=2
-sixth_open=False
+class Tictactoe(Game):
+    def __init__(self, board):
+        self.board = board
 
-if square_seven.collidepoint(pos) and seventh_open:
-if draw_shape=='rect':
-pygame.draw.rect(win, (255,0,0),(50,400,100,100))
-draw_shape='circle'
-board[2][0]=1
-else:
-pygame.draw.circle(win, (0,255,0),(100,450),50)
-draw_shape='rect'
-board[2][0]=2
-seventh_open=False
+    def user_move(self, position, player):
+        if self.board.boxes[position] == ' ':
+           self.board.update_board(position, player)
+        else:
+            pos = int(input("Invalid position. Please choose another: "))
+            self.user_move(pos, player)
 
-if square_eight.collidepoint(pos) and eighth_open:
-if draw_shape=='rect':
-pygame.draw.rect(win, (255,0,0),(225,400,100,100))
-draw_shape='circle'
-board[2][1]=1
-else:
-pygame.draw.circle(win, (0,255,0),(275,450),50)
-draw_shape='rect'
-board[2][1]=2
-eighth_open=False
+    def comp_move(self,player): #AI 
+        if self.board.boxes[5]==" ": #fill middle box
+            return 5
+        else:
+            if not self.board.full_board():
+                i = random.randint(1,9) #fill a random box
+                if self.board.boxes[i]==" ":
+                    return i
+                else:
+                   return self.comp_move(player)
+         
+    def is_winner(self,player):
+        for winlist in [[1,2,3],[4,5,6],[7,8,9],[1,4,7],[2,5,8],[3,6,9],[1,5,9],[3,5,7]]:
+            result = True
+            for position in winlist:
+                if self.board.boxes[position] != player:
+                    result = False
+            if result == True:
+                return True
 
-if square_nine.collidepoint(pos) and ninth_open:
-if draw_shape=='rect':
-pygame.draw.rect(win, (255,0,0),(400,400,100,100))
-draw_shape='circle'
-board[2][2]=1
-else:
-pygame.draw.circle(win, (0,255,0),(450,450),50)
-draw_shape='rect'
-board[2][2]=2
-ninth_open=False
+def introduction():
+    print("Welcome to Tic Tac Toe.\n")
 
-if win_check(1):
-won= True
-if win_check(2):
-won= True
+def drawScreen(board):
+    os.system("cls") #clear scren
+    introduction() #start intro
+    board.reset()
 
+if __name__ == "__main__":
+    board = Board()
+    ttt = Tictactoe(board)
+    play = True
+    play1 = ''
+    play2 = ''
+    while play:
+        drawScreen(board)
+        board.drawBoard()
+        userl = input("Do you want to be X or O?").upper()
+        if userl == 'X':
+            compl = 'O'
+        else:
+            compl = 'X'
 
-pygame.display.update()
+        if random.randint(0,2) == 1:
+            play1 = 'comp'
+            play2 = 'user'
+        else:
+            play1 = 'user'
+            play2 = 'comp'
 
-pygame.quit()
+        if play1 == "comp":
+            print("The Computer (", compl, ") will go first")
+        else:
+            print("The User (" ,userl, ") will go first")
+
+        victory = False
+        while not victory:
+
+            if not board.full_board():
+                if(play1 == "comp"):
+                    move = ttt.comp_move(compl)
+                    board.update_board(move, compl)
+                    print(" ")
+                    board.drawBoard()
+
+                    if ttt.is_winner(compl):
+                        print("The Computer Wins.\n")
+                        victory = True
+                        break
+
+                    else:
+                        if not board.full_board():
+                            user_play = int(input("User, Please choose from 1-9: "))
+                            ttt.user_move(user_play, userl)
+                            print(" ")
+                            board.drawBoard()
+
+                            if ttt.is_winner(userl):
+                                print("The User Wins.\n")
+                                victory = True
+                                break
+
+                        else:
+                            print("It's a tie.\n")
+                            victory = True
+                            break
+
+                else:
+                    user_play = int(input("User, Please choose from 1-9: "))
+                    ttt.user_move(user_play, userl)
+                    print(" ")
+                    board.drawBoard()
+
+                    if ttt.is_winner(userl):
+                        print("The User Wins.\n")
+                        victory = True
+                        break
+
+                    else:
+                        if not board.full_board():
+                            move = ttt.comp_move(compl)
+                            board.update_board(move, compl)
+                            print(" ")
+                            board.drawBoard()
+
+                            if ttt.is_winner(compl):
+                                print("The Computer Wins.\n")
+                                victory = True
+                                break
+                        else:
+                            print("It's a tie.\n")
+                            victory = True
+                            break
+
+            else:
+                print("It's a tie. \n")
+                victory = True
+                break
+
+        play_again = input("Would you like to play again? Y/N ").upper()
+        if play_again == "Y":
+            board.reset()
+            play = True
+        else:
+            play = False
+            break
+        victory = True
